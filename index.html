@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geo Magnet Studios</title>
+    <!-- Importando la fuente Rajdhani para un look futurista y tecnológico -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variables de colores electromagnéticos */
+        :root {
+            --bg-obsidian: #050508;
+            --neon-cyan: #00ffff;
+            --neon-blue: #0055ff;
+            --neon-magenta: #ff00ff;
+            --text-main: #e0e6ed;
+            --glass-bg: rgba(15, 17, 30, 0.55);
+            --glass-border: rgba(0, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-obsidian);
+            /* Fondo actualizado a PNG para PC */
+            background-image: url('PC_WEB.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Media Query para dispositivos móviles (cambia al fondo vertical PNG) */
+        @media (max-width: 768px) {
+            body {
+                background-image: url('MOVIL_WEB.png');
+            }
+        }
+
+        /* Capa oscura semitransparente para mejorar la legibilidad sobre los fondos brillantes */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 10, 0.4); /* Oscurece el fondo levemente */
+            backdrop-filter: blur(2px); /* Un ligero desenfoque opcional al fondo */
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Contenedor Principal */
+        .container {
+            position: relative;
+            z-index: 1; /* Por encima de la capa oscura */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Cabecera / Hero */
+        header {
+            margin-top: 4rem;
+            margin-bottom: 5rem;
+            text-align: center;
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        h1.magnet-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #ffffff;
+            /* Efecto magnético/neón en el texto */
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 15px var(--neon-cyan),
+                0 0 30px var(--neon-cyan),
+                0 0 50px var(--neon-blue),
+                0 0 80px var(--neon-magenta);
+        }
+
+        /* Sección de Proyectos */
+        .projects-section {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            letter-spacing: 2px;
+            margin-bottom: 2.5rem;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            text-transform: uppercase;
+        }
+
+        /* Tarjeta Glassmorphism */
+        .project-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            width: 100%;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(0, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Borde superior de la tarjeta simulando luz */
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-magenta), transparent);
+            opacity: 0.5;
+            transition: opacity 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(0, 255, 255, 0.5);
+            box-shadow: 
+                0 15px 40px 0 rgba(0, 0, 0, 0.8), 
+                0 0 20px rgba(0, 255, 255, 0.3), 
+                inset 0 0 20px rgba(255, 0, 255, 0.15);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        .card-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* Badges */
+        .badges-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.15) 0%, rgba(0, 85, 255, 0.2) 100%);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.2);
+        }
+
+        /* Descripción */
+        .description {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Estado */
+        .status {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border-left: 3px solid #00ff88;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .status .dot {
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Footer / Contacto */
+        footer {
+            margin-top: auto;
+            padding-top: 4rem;
+            text-align: center;
+        }
+
+        .contact-box {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-box:hover {
+            border-color: var(--neon-magenta);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .contact-id {
+            color: var(--neon-cyan);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .contact-username {
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+
+        /* Animaciones CSS */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 10px #00ff88; }
+            100% { opacity: 1; }
+        }
+
+        /* Responsividad extra */
+        @media (max-width: 600px) {
+            h1.magnet-title { font-size: 2.5rem; }
+            .project-card { padding: 1.5rem; }
+            .card-title { font-size: 2rem; }
+            .description { font-size: 1rem; }
+            .contact-box { flex-direction: column; gap: 5px; text-align: center; border-radius: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1 class="magnet-title">Geo Magnet Studios</h1>
+        </header>
+
+        <main class="projects-section">
+            <h2 class="section-title">Proyecto Actual</h2>
+            
+            <article class="project-card">
+                <h3 class="card-title">Root Vortex</h3>
+                
+                <div class="badges-container">
+                    <span class="badge">FPS</span>
+                    <span class="badge">Desarrollado en Roblox Studio</span>
+                    <span class="badge">13+</span>
+                </div>
+                
+                <p class="description">
+                    RootVortex es un trepidante videojuego shooter FPS desarrollado en Roblox Studio por Geo Magnet Studios, este titulo busca ser un juego divertido y de calidad donde el uso de la IA sea 0% (nulo).
+                </p>
+                
+                <div class="status">
+                    En desarrollo <span class="dot">🟢</span>
+                </div>
+            </article>
+        </main>
+
+        <footer>
+            <div class="contact-box">
+                <span>Contacto Discord:</span>
+                <span class="contact-id">@geomagnetofficial</span>
+                <span class="contact-username">o @random_official_geo</span>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>
