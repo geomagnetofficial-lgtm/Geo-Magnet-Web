@@ -8,8 +8,8 @@
 <script>
 /* Modo ligero: móviles, pantallas táctiles o equipos con poca memoria */
 (function(){
-  var lite = matchMedia('(max-width:768px), (pointer:coarse)').matches ||
-             (navigator.deviceMemory && navigator.deviceMemory <= 4);
+  var lite = matchMedia('(hover:none) and (pointer:coarse)').matches ||
+             /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent);
   if (lite) document.documentElement.classList.add('lite');
 })();
 </script>
@@ -150,8 +150,7 @@ footer{margin-top:auto;padding-top:4rem;text-align:center;animation:fadeUp 1s 1.
 /* ===== MODO LIGERO (móviles / gama media) =====
    Quita lo que más cuesta: desenfoques (backdrop-filter), animaciones que repintan
    (borde cónico, brillo del título, glitch), scanlines y resplandor del cursor. */
-.lite .cursor-glow,.lite .scan{display:none}
-.lite .aurora span{animation:none}
+.lite .cursor-glow,.lite .scan,.lite #field,.lite .aurora{display:none}
 .lite .project-card,.lite .contact-box{backdrop-filter:none;-webkit-backdrop-filter:none}
 .lite .project-card{background:rgba(12,14,26,.82);transition:none;transform:none}
 .lite .contact-box{background:rgba(0,0,0,.65)}
@@ -211,6 +210,7 @@ footer{margin-top:auto;padding-top:4rem;text-align:center;animation:fadeUp 1s 1.
 <script>
 (function(){
   var lite  = document.documentElement.classList.contains('lite');
+  if (lite) return;   // en celulares no se dibuja el campo magnético (rayitas ni bolas de luz)
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var cv = document.getElementById('field'), ctx = cv.getContext('2d');
   var W, H, GAP, cols, rows;
