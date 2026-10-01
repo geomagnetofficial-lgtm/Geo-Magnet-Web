@@ -1,313 +1,358 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geo Magnet Studios</title>
-    <!-- Importando la fuente Rajdhani para un look futurista y tecnológico -->
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Variables de colores electromagnéticos */
-        :root {
-            --bg-obsidian: #050508;
-            --neon-cyan: #00ffff;
-            --neon-blue: #0055ff;
-            --neon-magenta: #ff00ff;
-            --text-main: #e0e6ed;
-            --glass-bg: rgba(15, 17, 30, 0.55);
-            --glass-border: rgba(0, 255, 255, 0.2);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geo Magnet Studios</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050508; --cyan:#00ffff; --blue:#0055ff; --magenta:#ff00ff;
+  --text:#e0e6ed; --glass:rgba(15,17,30,.55); --glass-border:rgba(0,255,255,.2);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background-color:var(--bg);
+  background-image:url('PC_WEB.png');
+  background-size:cover; background-position:center;
+  background-attachment:fixed; background-repeat:no-repeat;
+  color:var(--text);
+  font-family:'Rajdhani',sans-serif; min-height:100vh;
+  overflow-x:hidden; position:relative;
+}
+@media (max-width:768px){
+  body{background-image:url('MOVIL_WEB.png')}
+}
+/* Capa oscura suave para legibilidad sobre la imagen */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:rgba(5,5,10,.4);backdrop-filter:blur(2px);
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* ===== CAPAS DE FONDO (solo efectos, sin imágenes) ===== */
+#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 
-        body {
-            background-color: var(--bg-obsidian);
-            /* Fondo actualizado a PNG para PC */
-            background-image: url('PC_WEB.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            color: var(--text-main);
-            font-family: 'Rajdhani', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+/* Aurora: manchas de luz que flotan */
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora span{
+  position:absolute;width:55vmax;height:55vmax;border-radius:50%;
+  filter:blur(90px);opacity:.16;mix-blend-mode:screen;
+  animation:drift 22s ease-in-out infinite alternate;
+}
+.aurora span:nth-child(1){background:radial-gradient(circle,var(--blue),transparent 65%);top:-20%;left:-15%}
+.aurora span:nth-child(2){background:radial-gradient(circle,var(--magenta),transparent 65%);bottom:-25%;right:-15%;animation-duration:28s;animation-delay:-8s}
+.aurora span:nth-child(3){background:radial-gradient(circle,var(--cyan),transparent 65%);top:35%;left:40%;width:35vmax;height:35vmax;opacity:.14;animation-duration:34s;animation-delay:-14s}
+@keyframes drift{
+  0%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(8vw,6vh) scale(1.15)}
+  100%{transform:translate(-6vw,10vh) scale(.95)}
+}
 
-        /* Media Query para dispositivos móviles (cambia al fondo vertical PNG) */
-        @media (max-width: 768px) {
-            body {
-                background-image: url('MOVIL_WEB.png');
-            }
-        }
+/* Scanlines + viñeta */
+.scan{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px);
+  mix-blend-mode:multiply}
+.scan::after{content:'';position:absolute;left:0;right:0;height:18vh;top:-20vh;
+  background:linear-gradient(180deg,transparent,rgba(0,255,255,.07),transparent);
+  animation:sweep 7s linear infinite}
+@keyframes sweep{to{top:110vh}}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.75) 100%)}
 
-        /* Capa oscura semitransparente para mejorar la legibilidad sobre los fondos brillantes */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(5, 5, 10, 0.4); /* Oscurece el fondo levemente */
-            backdrop-filter: blur(2px); /* Un ligero desenfoque opcional al fondo */
-            z-index: 0;
-            pointer-events: none;
-        }
+/* Resplandor que sigue al cursor */
+.cursor-glow{position:fixed;left:0;top:0;width:340px;height:340px;margin:-170px 0 0 -170px;
+  z-index:1;pointer-events:none;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,255,255,.16),rgba(255,0,255,.06) 45%,transparent 70%);
+  transform:translate3d(-999px,-999px,0);will-change:transform}
 
-        /* Contenedor Principal */
-        .container {
-            position: relative;
-            z-index: 1; /* Por encima de la capa oscura */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
-            min-height: 100vh;
-        }
+/* ===== CONTENIDO ===== */
+.container{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;padding:2rem;min-height:100vh}
 
-        /* Cabecera / Hero */
-        header {
-            margin-top: 4rem;
-            margin-bottom: 5rem;
-            text-align: center;
-            animation: fadeInDown 1.5s ease-out;
-        }
+header{margin-top:4rem;margin-bottom:5rem;text-align:center}
 
-        h1.magnet-title {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: #ffffff;
-            /* Efecto magnético/neón en el texto */
-            text-shadow: 
-                0 0 5px #fff,
-                0 0 15px var(--neon-cyan),
-                0 0 30px var(--neon-cyan),
-                0 0 50px var(--neon-blue),
-                0 0 80px var(--neon-magenta);
-        }
+h1.magnet-title{
+  position:relative;display:inline-block;
+  font-size:clamp(2.6rem,8vw,6rem);font-weight:700;text-transform:uppercase;
+  letter-spacing:4px;color:#fff;
+  text-shadow:0 0 5px #fff,0 0 15px var(--cyan),0 0 30px var(--cyan),0 0 50px var(--blue),0 0 80px var(--magenta);
+  animation:titleIn 1.4s cubic-bezier(.2,.9,.3,1) both, flicker 6s 1.6s infinite;
+}
+/* Glitch con dos copias desplazadas */
+h1.magnet-title::before,h1.magnet-title::after{
+  content:attr(data-text);position:absolute;inset:0;overflow:hidden;opacity:0;text-shadow:none;
+}
+h1.magnet-title::before{color:var(--cyan);animation:glitchA 5s 2s infinite}
+h1.magnet-title::after{color:var(--magenta);animation:glitchB 5s 2s infinite}
+@keyframes titleIn{
+  0%{opacity:0;letter-spacing:30px;filter:blur(14px);transform:scale(1.08)}
+  100%{opacity:1;letter-spacing:4px;filter:blur(0);transform:scale(1)}
+}
+@keyframes flicker{
+  0%,92%,100%{opacity:1}
+  93%{opacity:.55} 94%{opacity:1} 96%{opacity:.7} 97%{opacity:1}
+}
+@keyframes glitchA{
+  0%,90%,100%{opacity:0;transform:none;clip-path:inset(0)}
+  91%{opacity:.9;transform:translate(-5px,1px);clip-path:inset(15% 0 55% 0)}
+  93%{opacity:.9;transform:translate(4px,-1px);clip-path:inset(60% 0 8% 0)}
+  95%{opacity:0}
+}
+@keyframes glitchB{
+  0%,90%,100%{opacity:0;transform:none;clip-path:inset(0)}
+  92%{opacity:.9;transform:translate(5px,-1px);clip-path:inset(45% 0 30% 0)}
+  94%{opacity:.9;transform:translate(-4px,1px);clip-path:inset(5% 0 70% 0)}
+  96%{opacity:0}
+}
 
-        /* Sección de Proyectos */
-        .projects-section {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+@keyframes blink{50%{opacity:0}}
 
-        .section-title {
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--neon-cyan);
-            letter-spacing: 2px;
-            margin-bottom: 2.5rem;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-            text-transform: uppercase;
-        }
+.projects-section{width:100%;max-width:800px;display:flex;flex-direction:column;align-items:center}
 
-        /* Tarjeta Glassmorphism */
-        .project-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2.5rem;
-            width: 100%;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(0, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
+.section-title{
+  font-size:2rem;font-weight:600;color:var(--cyan);letter-spacing:2px;margin-bottom:2.5rem;
+  text-transform:uppercase;text-shadow:0 0 10px rgba(0,255,255,.5);
+  animation:fadeUp 1s 1.1s both;position:relative;padding:0 1.2rem;
+}
+.section-title::before,.section-title::after{
+  content:'';position:absolute;top:50%;width:40px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan));
+}
+.section-title::before{right:100%}
+.section-title::after{left:100%;transform:scaleX(-1)}
 
-        /* Borde superior de la tarjeta simulando luz */
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-magenta), transparent);
-            opacity: 0.5;
-            transition: opacity 0.4s ease;
-        }
+/* ===== TARJETA ===== */
+.card-wrap{width:100%;perspective:1000px;animation:fadeUp 1.1s 1.3s both}
+.project-card{
+  --mx:50%;--my:50%;--rx:0deg;--ry:0deg;
+  position:relative;overflow:hidden;width:100%;
+  background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--glass-border);border-radius:20px;padding:2.5rem;
+  box-shadow:0 8px 32px rgba(0,0,0,.7),inset 0 0 15px rgba(0,255,255,.05);
+  transform:rotateX(var(--rx)) rotateY(var(--ry));
+  transition:transform .15s ease-out,border-color .4s,box-shadow .4s;
+  transform-style:preserve-3d;
+}
+.project-card:hover{
+  border-color:rgba(0,255,255,.5);
+  box-shadow:0 20px 50px rgba(0,0,0,.8),0 0 25px rgba(0,255,255,.3),inset 0 0 20px rgba(255,0,255,.12);
+}
+/* Foco de luz que sigue al mouse dentro de la tarjeta */
+.project-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(260px circle at var(--mx) var(--my),rgba(0,255,255,.18),rgba(255,0,255,.07) 50%,transparent 70%);
+}
+.project-card:hover::before{opacity:1}
+/* Borde animado giratorio */
+.project-card::after{
+  content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;pointer-events:none;
+  background:conic-gradient(from var(--ang,0deg),transparent 0 70%,var(--cyan),var(--magenta),transparent);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:spin 6s linear infinite;opacity:.9;
+}
+@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes spin{to{--ang:360deg}}
 
-        .project-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: rgba(0, 255, 255, 0.5);
-            box-shadow: 
-                0 15px 40px 0 rgba(0, 0, 0, 0.8), 
-                0 0 20px rgba(0, 255, 255, 0.3), 
-                inset 0 0 20px rgba(255, 0, 255, 0.15);
-        }
+/* Destello que cruza la tarjeta */
+.shine{position:absolute;top:0;left:-60%;width:40%;height:100%;pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.08),transparent);
+  transform:skewX(-20deg);animation:shine 5.5s 2.5s infinite}
+@keyframes shine{0%{left:-60%}35%,100%{left:130%}}
 
-        .project-card:hover::before {
-            opacity: 1;
-            box-shadow: 0 0 15px var(--neon-cyan);
-        }
+.card-title{font-size:2.5rem;font-weight:700;margin-bottom:1rem;color:#fff;letter-spacing:1px;
+  background:linear-gradient(90deg,#fff 0%,var(--cyan) 50%,#fff 100%);background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shimmer 5s linear infinite}
+@keyframes shimmer{to{background-position:200% center}}
 
-        .card-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #fff;
-            letter-spacing: 1px;
-        }
+.badges-container{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1.5rem}
+.badge{
+  background:linear-gradient(135deg,rgba(0,255,255,.15),rgba(0,85,255,.2));
+  border:1px solid rgba(0,255,255,.4);padding:4px 12px;border-radius:50px;
+  font-size:.9rem;font-weight:600;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;
+  box-shadow:0 0 8px rgba(0,255,255,.2);
+  transition:transform .25s,box-shadow .25s,background .25s;cursor:default;
+}
+.badge:hover{transform:translateY(-3px) scale(1.06);box-shadow:0 0 18px rgba(0,255,255,.6);
+  background:linear-gradient(135deg,rgba(0,255,255,.3),rgba(255,0,255,.25))}
 
-        /* Badges */
-        .badges-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 1.5rem;
-        }
+.description{font-size:1.15rem;line-height:1.6;color:#d1d5db;margin-bottom:2rem;font-weight:500;text-shadow:0 2px 4px rgba(0,0,0,.5)}
+.description .cursor{display:inline-block;width:8px;height:1.1em;margin-left:3px;vertical-align:-3px;background:var(--cyan);animation:blink .9s steps(1) infinite}
 
-        .badge {
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.15) 0%, rgba(0, 85, 255, 0.2) 100%);
-            border: 1px solid rgba(0, 255, 255, 0.4);
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--neon-cyan);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            box-shadow: 0 0 8px rgba(0, 255, 255, 0.2);
-        }
+.status{display:inline-flex;align-items:center;gap:10px;background:rgba(0,0,0,.6);padding:8px 16px;border-radius:8px;
+  border-left:3px solid #00ff88;font-size:1.1rem;font-weight:600;color:#fff;letter-spacing:1px}
+.status .dot{position:relative;width:10px;height:10px;border-radius:50%;background:#00ff88;box-shadow:0 0 10px #00ff88}
+.status .dot::after{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid #00ff88;animation:ping 1.8s ease-out infinite}
+@keyframes ping{to{transform:scale(3.2);opacity:0}}
 
-        /* Descripción */
-        .description {
-            font-size: 1.15rem;
-            line-height: 1.6;
-            color: #d1d5db;
-            margin-bottom: 2rem;
-            font-weight: 500;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
+/* ===== FOOTER ===== */
+footer{margin-top:auto;padding-top:4rem;text-align:center;animation:fadeUp 1s 1.7s both}
+.contact-box{
+  background:rgba(0,0,0,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.15);padding:1rem 2rem;border-radius:30px;font-size:1.1rem;
+  display:inline-flex;align-items:center;gap:10px;transition:all .3s ease;
+}
+.contact-box:hover{border-color:var(--magenta);box-shadow:0 0 20px rgba(255,0,255,.35);background:rgba(0,0,0,.6);transform:translateY(-3px)}
+.contact-id{color:var(--cyan);font-weight:700;letter-spacing:1px;text-shadow:0 0 8px rgba(0,255,255,.6)}
+.contact-username{color:#ccc;font-size:.95rem}
 
-        /* Estado */
-        .status {
-            display: inline-block;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 8px 16px;
-            border-radius: 8px;
-            border-left: 3px solid #00ff88;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #fff;
-            letter-spacing: 1px;
-        }
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
 
-        .status .dot {
-            animation: pulse 1.5s infinite;
-        }
-
-        /* Footer / Contacto */
-        footer {
-            margin-top: auto;
-            padding-top: 4rem;
-            text-align: center;
-        }
-
-        .contact-box {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 1rem 2rem;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .contact-box:hover {
-            border-color: var(--neon-magenta);
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .contact-id {
-            color: var(--neon-cyan);
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        
-        .contact-username {
-            color: #ccc;
-            font-size: 0.95rem;
-        }
-
-        /* Animaciones CSS */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; text-shadow: 0 0 10px #00ff88; }
-            100% { opacity: 1; }
-        }
-
-        /* Responsividad extra */
-        @media (max-width: 600px) {
-            h1.magnet-title { font-size: 2.5rem; }
-            .project-card { padding: 1.5rem; }
-            .card-title { font-size: 2rem; }
-            .description { font-size: 1rem; }
-            .contact-box { flex-direction: column; gap: 5px; text-align: center; border-radius: 15px; }
-        }
-    </style>
+@media (max-width:600px){
+  .project-card{padding:1.5rem}
+  .card-title{font-size:2rem}
+  .description{font-size:1rem}
+  .contact-box{flex-direction:column;gap:5px;text-align:center;border-radius:15px}
+  .section-title::before,.section-title::after{display:none}
+  .cursor-glow{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}
+}
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1 class="magnet-title">Geo Magnet Studios</h1>
-        </header>
+<div class="aurora"><span></span><span></span><span></span></div>
+<canvas id="field"></canvas>
+<div class="vignette"></div>
+<div class="scan"></div>
+<div class="cursor-glow" id="glow"></div>
 
-        <main class="projects-section">
-            <h2 class="section-title">Proyecto Actual</h2>
-            
-            <article class="project-card">
-                <h3 class="card-title">Root Vortex</h3>
-                
-                <div class="badges-container">
-                    <span class="badge">FPS</span>
-                    <span class="badge">Desarrollado en Roblox Studio</span>
-                    <span class="badge">13+</span>
-                </div>
-                
-                <p class="description">
-                    RootVortex es un trepidante videojuego shooter FPS desarrollado en Roblox Studio por Geo Magnet Studios, este titulo busca ser un juego divertido y de calidad donde el uso de la IA sea 0% (nulo).
-                </p>
-                
-                <div class="status">
-                    En desarrollo <span class="dot">🟢</span>
-                </div>
-            </article>
-        </main>
+<div class="container">
+  <header>
+    <h1 class="magnet-title" data-text="Geo Magnet Studios">Geo Magnet Studios</h1>
+  </header>
 
-        <footer>
-            <div class="contact-box">
-                <span>Contacto Discord:</span>
-                <span class="contact-id">@geomagnetofficial</span>
-                <span class="contact-username">o @random_official_geo</span>
-            </div>
-        </footer>
+  <main class="projects-section">
+    <h2 class="section-title">Proyecto Actual</h2>
+    <div class="card-wrap">
+      <article class="project-card" id="card">
+        <div class="shine"></div>
+        <h3 class="card-title">Root Vortex</h3>
+        <div class="badges-container">
+          <span class="badge">FPS</span>
+          <span class="badge">Desarrollado en Roblox Studio</span>
+          <span class="badge">13+</span>
+        </div>
+        <p class="description">RootVortex es un trepidante videojuego shooter FPS desarrollado en Roblox Studio por Geo Magnet Studios, este titulo busca ser un juego divertido y de calidad donde el uso de la IA sea 0% (nulo).</p>
+        <div class="status">En desarrollo <span class="dot"></span></div>
+      </article>
     </div>
+  </main>
 
+  <footer>
+    <div class="contact-box">
+      <span>Contacto Discord:</span>
+      <span class="contact-id">@geomagnetofficial</span>
+      <span class="contact-username">o @random_official_geo</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cv = document.getElementById('field'), ctx = cv.getContext('2d');
+  var W, H, dpr, GAP, cols, rows;
+  var mouse = {x:-9999,y:-9999,tx:-9999,ty:-9999,active:false};
+  var rings = [], t = 0;
+
+  function resize(){
+    dpr = Math.min(devicePixelRatio||1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = W*dpr; cv.height = H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    GAP = W < 700 ? 30 : 36;
+    cols = Math.ceil(W/GAP)+1; rows = Math.ceil(H/GAP)+1;
+  }
+  addEventListener('resize', resize); resize();
+
+  // Dos polos: uno magenta orbitando solo, otro cian que sigue al mouse
+  function poles(){
+    var ax = W*(.5 + .32*Math.cos(t*.0004)), ay = H*(.5 + .3*Math.sin(t*.0006));
+    var bx = mouse.active ? mouse.x : W*(.5 + .28*Math.cos(t*.0005+3)),
+        by = mouse.active ? mouse.y : H*(.5 + .28*Math.sin(t*.0007+1));
+    return [{x:ax,y:ay,q:-1},{x:bx,y:by,q:1}];
+  }
+
+  function frame(){
+    t += 16;
+    mouse.x += (mouse.tx-mouse.x)*.12; mouse.y += (mouse.ty-mouse.y)*.12;
+    ctx.clearRect(0,0,W,H);
+    var P = poles();
+    ctx.lineCap = 'round';
+    for(var i=0;i<cols;i++){
+      for(var j=0;j<rows;j++){
+        var x = i*GAP + (j%2?GAP/2:0), y = j*GAP;
+        var fx=0, fy=0;
+        for(var k=0;k<2;k++){
+          var dx = x-P[k].x, dy = y-P[k].y, d2 = dx*dx+dy*dy+900, d = Math.sqrt(d2);
+          var s = P[k].q*9000/(d2*d);
+          fx += dx*s; fy += dy*s;
+        }
+        var mag = Math.sqrt(fx*fx+fy*fy);
+        var ang = Math.atan2(fy,fx);
+        var str = Math.min(1, mag*60);
+        var len = 5 + str*13;
+        // Ondas de choque por clic
+        var boost = 0;
+        for(var r=0;r<rings.length;r++){
+          var rd = Math.hypot(x-rings[r].x, y-rings[r].y);
+          var diff = Math.abs(rd-rings[r].r);
+          if(diff<60) boost = Math.max(boost,(1-diff/60)*rings[r].a);
+        }
+        var alpha = .1 + str*.55 + boost*.6;
+        var hue = 180 + (Math.cos(ang)*.5+.5)*140 ; // cian → magenta según dirección
+        ctx.strokeStyle = 'hsla('+hue+',100%,'+(55+boost*25)+'%,'+Math.min(alpha,1)+')';
+        ctx.lineWidth = 1.2 + str*.8 + boost;
+        var c = Math.cos(ang)*len/2, s2 = Math.sin(ang)*len/2;
+        ctx.beginPath(); ctx.moveTo(x-c,y-s2); ctx.lineTo(x+c,y+s2); ctx.stroke();
+      }
+    }
+    // Núcleos de los polos
+    for(var p=0;p<2;p++){
+      var col = P[p].q>0 ? '0,255,255' : '255,0,255';
+      var g = ctx.createRadialGradient(P[p].x,P[p].y,0,P[p].x,P[p].y,70);
+      g.addColorStop(0,'rgba('+col+',.35)'); g.addColorStop(1,'rgba('+col+',0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(P[p].x,P[p].y,70,0,6.283); ctx.fill();
+    }
+    // Anillos de clic
+    for(var q=rings.length-1;q>=0;q--){
+      rings[q].r += 9; rings[q].a *= .965;
+      ctx.strokeStyle = 'rgba(0,255,255,'+rings[q].a*.6+')'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(rings[q].x,rings[q].y,rings[q].r,0,6.283); ctx.stroke();
+      if(rings[q].a<.03) rings.splice(q,1);
+    }
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  frame();
+  if(reduce) { frame(); }
+
+  var glow = document.getElementById('glow');
+  addEventListener('pointermove', function(e){
+    mouse.tx = e.clientX; mouse.ty = e.clientY;
+    if(!mouse.active){ mouse.x = e.clientX; mouse.y = e.clientY; }
+    mouse.active = true;
+    glow.style.transform = 'translate3d('+e.clientX+'px,'+e.clientY+'px,0)';
+  });
+  document.addEventListener('pointerleave', function(){ mouse.active = false; });
+  addEventListener('pointerdown', function(e){ rings.push({x:e.clientX,y:e.clientY,r:0,a:1}); });
+
+  // Inclinación 3D + foco de luz en la tarjeta
+  var card = document.getElementById('card');
+  card.addEventListener('pointermove', function(e){
+    var b = card.getBoundingClientRect();
+    var x = e.clientX-b.left, y = e.clientY-b.top;
+    card.style.setProperty('--mx', x+'px'); card.style.setProperty('--my', y+'px');
+    card.style.setProperty('--ry', ((x/b.width-.5)*8)+'deg');
+    card.style.setProperty('--rx', (-(y/b.height-.5)*8)+'deg');
+  });
+  card.addEventListener('pointerleave', function(){
+    card.style.setProperty('--rx','0deg'); card.style.setProperty('--ry','0deg');
+  });
+})();
+</script>
 </body>
 </html>
