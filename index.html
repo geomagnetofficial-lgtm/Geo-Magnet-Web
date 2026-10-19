@@ -4,327 +4,457 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Geo Magnet Studios</title>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script>
-/* Modo ligero: móviles, pantallas táctiles o equipos con poca memoria */
-(function(){
-  var lite = matchMedia('(hover:none) and (pointer:coarse)').matches ||
-             /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent);
-  if (lite) document.documentElement.classList.add('lite');
-})();
-</script>
 <style>
-:root{
-  --bg:#050508; --cyan:#00ffff; --blue:#0055ff; --magenta:#ff00ff;
-  --text:#e0e6ed; --glass:rgba(15,17,30,.55); --glass-border:rgba(0,255,255,.2);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;position:relative}
-
-/* ===== FONDO: imagen en capa fija propia (se compone en GPU, sin repintar al hacer scroll) ===== */
-.bg{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:linear-gradient(rgba(5,5,10,.4),rgba(5,5,10,.4)),url('PC_WEB.png') center/cover no-repeat;
-}
-@media (max-width:768px){
-  .bg{background-image:linear-gradient(rgba(5,5,10,.4),rgba(5,5,10,.4)),url('MOVIL_WEB.png')}
+:root {
+  --bg: #0a0a0c;
+  --surface: #141417;
+  --border: #26262e;
+  --border-hover: #40404f;
+  --text: #f0f0f5;
+  --text-muted: #8e8e9e;
+  --accent: #ffffff;
+  --status-green: #20c997;
+  --status-purple: #a855f7;
 }
 
-/* ===== EFECTOS ===== */
-#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-
-.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.aurora span{position:absolute;width:70vmax;height:70vmax;border-radius:50%;opacity:.16;will-change:transform;
-  animation:drift 24s ease-in-out infinite alternate}
-.aurora span:nth-child(1){background:radial-gradient(circle,var(--blue),transparent 65%);top:-25%;left:-20%}
-.aurora span:nth-child(2){background:radial-gradient(circle,var(--magenta),transparent 65%);bottom:-30%;right:-20%;animation-duration:30s;animation-delay:-8s}
-.aurora span:nth-child(3){display:none}
-@keyframes drift{
-  0%{transform:translate3d(0,0,0) scale(1)}
-  100%{transform:translate3d(-6vw,8vh,0) scale(1.1)}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.scan{position:fixed;inset:0;z-index:2;pointer-events:none;
-  background:repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0 1px,transparent 1px 3px)}
-.scan::after{content:'';position:absolute;left:0;right:0;top:0;height:18vh;
-  background:linear-gradient(180deg,transparent,rgba(0,255,255,.07),transparent);
-  will-change:transform;animation:sweep 7s linear infinite}
-@keyframes sweep{from{transform:translate3d(0,-20vh,0)}to{transform:translate3d(0,110vh,0)}}
-.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.7) 100%)}
-
-.cursor-glow{position:fixed;left:0;top:0;width:340px;height:340px;margin:-170px 0 0 -170px;z-index:1;pointer-events:none;
-  border-radius:50%;background:radial-gradient(circle,rgba(0,255,255,.16),rgba(255,0,255,.06) 45%,transparent 70%);
-  transform:translate3d(-999px,-999px,0);will-change:transform}
-
-/* ===== CONTENIDO ===== */
-.container{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;padding:2rem;min-height:100vh}
-header{margin-top:4rem;margin-bottom:5rem;text-align:center}
-
-h1.magnet-title{
-  position:relative;display:inline-block;font-size:clamp(2.6rem,8vw,6rem);font-weight:700;text-transform:uppercase;
-  letter-spacing:4px;color:#fff;
-  text-shadow:0 0 5px #fff,0 0 15px var(--cyan),0 0 30px var(--cyan),0 0 50px var(--blue),0 0 80px var(--magenta);
-  animation:titleIn 1.4s cubic-bezier(.2,.9,.3,1) both, flicker 6s 1.6s infinite;
-}
-h1.magnet-title::before,h1.magnet-title::after{content:attr(data-text);position:absolute;inset:0;overflow:hidden;opacity:0;text-shadow:none}
-h1.magnet-title::before{color:var(--cyan);animation:glitchA 5s 2s infinite}
-h1.magnet-title::after{color:var(--magenta);animation:glitchB 5s 2s infinite}
-@keyframes titleIn{0%{opacity:0;letter-spacing:30px;filter:blur(14px);transform:scale(1.08)}100%{opacity:1;letter-spacing:4px;filter:blur(0);transform:scale(1)}}
-@keyframes flicker{0%,92%,100%{opacity:1}93%{opacity:.55}94%{opacity:1}96%{opacity:.7}97%{opacity:1}}
-@keyframes glitchA{0%,90%,100%{opacity:0;transform:none;clip-path:inset(0)}91%{opacity:.9;transform:translate(-5px,1px);clip-path:inset(15% 0 55% 0)}93%{opacity:.9;transform:translate(4px,-1px);clip-path:inset(60% 0 8% 0)}95%{opacity:0}}
-@keyframes glitchB{0%,90%,100%{opacity:0;transform:none;clip-path:inset(0)}92%{opacity:.9;transform:translate(5px,-1px);clip-path:inset(45% 0 30% 0)}94%{opacity:.9;transform:translate(-4px,1px);clip-path:inset(5% 0 70% 0)}96%{opacity:0}}
-@keyframes blink{50%{opacity:0}}
-
-.projects-section{width:100%;max-width:800px;display:flex;flex-direction:column;align-items:center}
-.section-title{font-size:2rem;font-weight:600;color:var(--cyan);letter-spacing:2px;margin-bottom:2.5rem;text-transform:uppercase;
-  text-shadow:0 0 10px rgba(0,255,255,.5);animation:fadeUp 1s 1.1s both;position:relative;padding:0 1.2rem}
-.section-title::before,.section-title::after{content:'';position:absolute;top:50%;width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan))}
-.section-title::before{right:100%}
-.section-title::after{left:100%;transform:scaleX(-1)}
-
-/* ===== TARJETA ===== */
-.card-wrap{width:100%;perspective:1000px;animation:fadeUp 1.1s 1.3s both}
-.project-card{
-  --mx:50%;--my:50%;--rx:0deg;--ry:0deg;
-  position:relative;overflow:hidden;width:100%;
-  background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid var(--glass-border);border-radius:20px;padding:2.5rem;
-  box-shadow:0 8px 32px rgba(0,0,0,.7),inset 0 0 15px rgba(0,255,255,.05);
-  transform:rotateX(var(--rx)) rotateY(var(--ry));
-  transition:transform .15s ease-out,border-color .4s,box-shadow .4s;
-}
-.project-card:hover{border-color:rgba(0,255,255,.5);box-shadow:0 20px 50px rgba(0,0,0,.8),0 0 25px rgba(0,255,255,.3),inset 0 0 20px rgba(255,0,255,.12)}
-.project-card::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
-  background:radial-gradient(260px circle at var(--mx) var(--my),rgba(0,255,255,.18),rgba(255,0,255,.07) 50%,transparent 70%)}
-.project-card:hover::before{opacity:1}
-.project-card::after{content:'';position:absolute;inset:0;border-radius:20px;padding:1.5px;pointer-events:none;
-  background:conic-gradient(from var(--ang,0deg),transparent 0 70%,var(--cyan),var(--magenta),transparent);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
-  animation:spin 6s linear infinite;opacity:.9}
-@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
-@keyframes spin{to{--ang:360deg}}
-
-.shine{position:absolute;top:0;left:0;width:40%;height:100%;pointer-events:none;will-change:transform;
-  background:linear-gradient(105deg,transparent,rgba(255,255,255,.08),transparent);
-  transform:translate3d(-160%,0,0) skewX(-20deg);animation:shine 5.5s 2.5s infinite}
-@keyframes shine{0%{transform:translate3d(-160%,0,0) skewX(-20deg)}35%,100%{transform:translate3d(340%,0,0) skewX(-20deg)}}
-
-.card-title{font-size:2.5rem;font-weight:700;margin-bottom:1rem;letter-spacing:1px;
-  background:linear-gradient(90deg,#fff 0%,var(--cyan) 50%,#fff 100%);background-size:200% auto;
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 5s linear infinite}
-@keyframes shimmer{to{background-position:200% center}}
-
-.badges-container{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1.5rem}
-.badge{background:linear-gradient(135deg,rgba(0,255,255,.15),rgba(0,85,255,.2));border:1px solid rgba(0,255,255,.4);
-  padding:4px 12px;border-radius:50px;font-size:.9rem;font-weight:600;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;
-  box-shadow:0 0 8px rgba(0,255,255,.2);transition:transform .25s,box-shadow .25s,background .25s;cursor:default}
-.badge:hover{transform:translateY(-3px) scale(1.06);box-shadow:0 0 18px rgba(0,255,255,.6);background:linear-gradient(135deg,rgba(0,255,255,.3),rgba(255,0,255,.25))}
-
-.description{font-size:1.15rem;line-height:1.6;color:#d1d5db;margin-bottom:2rem;font-weight:500;text-shadow:0 2px 4px rgba(0,0,0,.5)}
-
-.status{display:inline-flex;align-items:center;gap:10px;background:rgba(0,0,0,.6);padding:8px 16px;border-radius:8px;
-  border-left:3px solid #00ff88;font-size:1.1rem;font-weight:600;color:#fff;letter-spacing:1px}
-.status .dot{position:relative;width:10px;height:10px;border-radius:50%;background:#00ff88;box-shadow:0 0 10px #00ff88}
-.status .dot::after{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid #00ff88;animation:ping 1.8s ease-out infinite}
-@keyframes ping{to{transform:scale(3.2);opacity:0}}
-
-footer{margin-top:auto;padding-top:4rem;text-align:center;animation:fadeUp 1s 1.7s both}
-.contact-box{background:rgba(0,0,0,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.15);padding:1rem 2rem;border-radius:30px;font-size:1.1rem;
-  display:inline-flex;align-items:center;gap:10px;transition:all .3s ease}
-.contact-box:hover{border-color:var(--magenta);box-shadow:0 0 20px rgba(255,0,255,.35);background:rgba(0,0,0,.6);transform:translateY(-3px)}
-.contact-id{color:var(--cyan);font-weight:700;letter-spacing:1px;text-shadow:0 0 8px rgba(0,255,255,.6)}
-.contact-username{color:#ccc;font-size:.95rem}
-@keyframes fadeUp{from{opacity:0;transform:translate3d(0,30px,0)}to{opacity:1;transform:none}}
-
-@media (max-width:600px){
-  .project-card{padding:1.5rem}
-  .card-title{font-size:2rem}
-  .description{font-size:1rem}
-  .contact-box{flex-direction:column;gap:5px;text-align:center;border-radius:15px}
-  .section-title::before,.section-title::after{display:none}
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ===== MODO LIGERO (móviles / gama media) =====
-   Quita lo que más cuesta: desenfoques (backdrop-filter), animaciones que repintan
-   (borde cónico, brillo del título, glitch), scanlines y resplandor del cursor. */
-.lite .cursor-glow,.lite .scan,.lite #field,.lite .aurora{display:none}
-.lite .project-card,.lite .contact-box{backdrop-filter:none;-webkit-backdrop-filter:none}
-.lite .project-card{background:rgba(12,14,26,.82);transition:none;transform:none}
-.lite .contact-box{background:rgba(0,0,0,.65)}
-.lite .project-card::before{display:none}
-.lite .project-card::after{animation:none;background:linear-gradient(135deg,var(--cyan),transparent 40%,transparent 60%,var(--magenta))}
-.lite .card-title{animation:none;background:none;-webkit-text-fill-color:#fff;color:#fff;text-shadow:0 0 12px rgba(0,255,255,.6)}
-.lite h1.magnet-title{animation:fadeUp 1s both;text-shadow:0 0 6px #fff,0 0 18px var(--cyan),0 0 40px var(--blue)}
-.lite h1.magnet-title::before,.lite h1.magnet-title::after{display:none}
-.lite .shine{animation:none;display:none}
-.lite .badge{box-shadow:none}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
 
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}
+/* Header */
+header {
+  margin-bottom: 3.5rem;
+  text-align: center;
+}
+
+h1.magnet-title {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+}
+
+/* Categorías / Filtros */
+.nav-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 3.5rem;
+}
+
+.btn-filter {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-filter:hover {
+  border-color: var(--border-hover);
+  color: var(--text);
+}
+
+.btn-filter.active {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+  font-weight: 600;
+}
+
+/* Secciones y Tarjetas */
+.projects-section {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.division-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.division-container.hidden {
+  display: none;
+}
+
+.section-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .cards-grid.two-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.project-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.card-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.badges-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+
+.badge {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: #a1a1aa;
+  margin-bottom: 1.5rem;
+}
+
+/* Footer de Tarjeta */
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.status .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--status-green);
+}
+
+.status.concept .dot {
+  background: var(--status-purple);
+}
+
+.btn-card-action {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-card-action:hover {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 520px;
+  width: 100%;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: var(--accent);
+}
+
+.modal-body {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #a1a1aa;
+  line-height: 1.6;
+}
+
+/* Footer Global */
+footer {
+  margin-top: 5rem;
+  text-align: center;
+}
+
+.contact-box {
+  display: inline-flex;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.contact-id {
+  color: var(--accent);
+  font-weight: 500;
 }
 </style>
 </head>
 <body>
 
-<div class="bg"></div>
-<div class="aurora"><span></span><span></span><span></span></div>
-<canvas id="field"></canvas>
-<div class="vignette"></div>
-<div class="scan"></div>
-<div class="cursor-glow" id="glow"></div>
-
 <div class="container">
   <header>
-    <h1 class="magnet-title" data-text="Geo Magnet Studios">Geo Magnet Studios</h1>
+    <h1 class="magnet-title">Geo Magnet Studios</h1>
   </header>
 
+  <!-- FILTROS -->
+  <nav class="nav-filters">
+    <button class="btn-filter active" data-filter="all">Todos</button>
+    <button class="btn-filter" data-filter="ai">AI Studios</button>
+    <button class="btn-filter" data-filter="studios">Studios</button>
+    <button class="btn-filter" data-filter="games">Games</button>
+  </nav>
+
   <main class="projects-section">
-    <h2 class="section-title">Proyecto Actual</h2>
-    <div class="card-wrap">
-      <article class="project-card" id="card">
-        <div class="shine"></div>
-        <h3 class="card-title">Root Vortex</h3>
-        <div class="badges-container">
-          <span class="badge">FPS</span>
-          <span class="badge">Desarrollado en Roblox Studio</span>
-          <span class="badge">13+</span>
-        </div>
-        <p class="description">RootVortex es un trepidante videojuego shooter FPS desarrollado en Roblox Studio por Geo Magnet Studios, este titulo busca ser un juego divertido y de calidad donde el uso de la IA sea 0% (nulo).</p>
-        <div class="status">En desarrollo <span class="dot"></span></div>
-      </article>
-    </div>
+    
+    <!-- GEO MAGNET AI STUDIOS -->
+    <section class="division-container" data-category="ai">
+      <h2 class="section-title">Geo Magnet AI Studios</h2>
+      <div class="cards-grid two-cols">
+        
+        <article class="project-card">
+          <div>
+            <h3 class="card-title">Tecton AI</h3>
+            <div class="badges-container">
+              <span class="badge">LLM</span>
+              <span class="badge">C++ / LibTorch</span>
+              <span class="badge">FSDP2 / HSDP</span>
+              <span class="badge">Multimodal</span>
+            </div>
+            <p class="description">Modelo de lenguaje propio diseñado como alternativa a Gemini o Claude. Basado en arquitectura Transformer decoder-only con atención agrupada (GQA), RoPE, RMSNorm y soporte multimodal opcional para imágenes.</p>
+          </div>
+          <div class="card-footer">
+            <div class="status"><span class="dot"></span> v2.0 En desarrollo</div>
+            <button class="btn-card-action" onclick="openModal('Tecton AI', 'Tecton AI es un LLM propio. La v1.0 (agosto 2026) vinculó el entrenamiento en Python con un motor de inferencia en C++ (LibTorch). La v2.0 reescribe la arquitectura para entrenamiento distribuido a gran escala con multi-GPU/multi-nodo (FSDP2/HSDP), checkpoints asíncronos, LoRA/QLoRA, tokenizador SentencePiece y auditoría técnica.')">Info</button>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div>
+            <h3 class="card-title">Compresor (pt2gguf)</h3>
+            <div class="badges-container">
+              <span class="badge">CLI / GUI</span>
+              <span class="badge">GGUF</span>
+              <span class="badge">Ollama</span>
+              <span class="badge">PyTorch .pt</span>
+            </div>
+            <p class="description">Herramienta gráfica y de línea de comandos que convierte checkpoints .pt tipo LLaMA a formato GGUF cuantizado (Q4_K_M) y los registra directamente en Ollama.</p>
+          </div>
+          <div class="card-footer">
+            <div class="status"><span class="dot"></span> Disponible</div>
+            <button class="btn-card-action" onclick="openModal('Compresor (pt2gguf)', 'Herramienta de conversión para checkpoints PyTorch (.pt) hacia el formato GGUF optimizado. Permite ejecutar localmente en Ollama los modelos de lenguaje previamente entrenados con Tecton AI.')">Info</button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- GEO MAGNET STUDIOS -->
+    <section class="division-container" data-category="studios">
+      <h2 class="section-title">Geo Magnet Studios</h2>
+      <div class="cards-grid">
+        
+        <article class="project-card">
+          <div>
+            <h3 class="card-title">NodeAI</h3>
+            <div class="badges-container">
+              <span class="badge">Flet</span>
+              <span class="badge">Multi-LLM (20+)</span>
+              <span class="badge">Modo Agente</span>
+              <span class="badge">Windows .exe</span>
+            </div>
+            <p class="description">Mesa redonda interactiva que conecta hasta 20 modelos en paralelo (OpenAI, Anthropic, Gemini, DeepSeek, Ollama, etc.). Se replican entre sí y un modelo Director sintetiza la respuesta final.</p>
+          </div>
+          <div class="card-footer">
+            <div class="status"><span class="dot"></span> Versión Windows</div>
+            <button class="btn-card-action" onclick="openModal('NodeAI', 'Aplicación desarrollada en Flet con ejecutable para Windows. Permite interacciones multinivel entre hasta 20 modelos locales o en la nube. Incluye un Modo Agente que permite al modelo Director ver la pantalla, controlar teclado/ratón, interactuar con la terminal y manejar archivos bajo estrictos niveles de seguridad.')">Info</button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- GEO MAGNET GAMES -->
+    <section class="division-container" data-category="games">
+      <h2 class="section-title">Geo Magnet Games</h2>
+      <div class="cards-grid">
+        
+        <article class="project-card">
+          <div>
+            <h3 class="card-title">Root Vortex</h3>
+            <div class="badges-container">
+              <span class="badge">FPS Competitivo</span>
+              <span class="badge">Roblox Studio</span>
+              <span class="badge">ElevenLabs</span>
+              <span class="badge">0% IA en Código</span>
+            </div>
+            <p class="description">Shooter táctico y competitivo para Roblox al estilo Rivals. Primer gran proyecto del estudio, con voces generadas con ElevenLabs y 0% IA en su desarrollo.</p>
+          </div>
+          <div class="card-footer">
+            <div class="status concept"><span class="dot"></span> En desarrollo</div>
+            <button class="btn-card-action" onclick="openModal('Root Vortex', 'Shooter táctico y trepidante en Roblox Studio estilo Rivals. Cuenta con guion de reclutamiento y actuación vocal mediante ElevenLabs. Mantiene un desarrollo de código e historia 100% humano y busca scripters, artistas 2D/3D y diseñadores de sonido bajo un modelo de ganancias compartidas.')">Info</button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
   </main>
 
   <footer>
     <div class="contact-box">
-      <span>Contacto Discord:</span>
+      <span>Discord:</span>
       <span class="contact-id">@geomagnetofficial</span>
-      <span class="contact-username">o @random_official_geo</span>
+      <span>o</span>
+      <span class="contact-id">@random_official_geo</span>
     </div>
   </footer>
 </div>
 
+<!-- MODAL -->
+<div class="modal-overlay" id="infoModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <h3 class="card-title" id="modalTitle">Título</h3>
+    <div class="modal-body" id="modalBody">Contenido del proyecto...</div>
+  </div>
+</div>
+
 <script>
-(function(){
-  var lite  = document.documentElement.classList.contains('lite');
-  if (lite) return;   // en celulares no se dibuja el campo magnético (rayitas ni bolas de luz)
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var cv = document.getElementById('field'), ctx = cv.getContext('2d');
-  var W, H, GAP, cols, rows;
-  var mouse = {x:0,y:0,tx:0,ty:0,active:false};
-  var rings = [], t = 0, last = 0, running = false;
-  var FRAME_MS = lite ? 33 : 16;               // 30 fps en móvil, 60 en PC
+/* FILTRADO INTERACTIVO */
+const filterBtns = document.querySelectorAll('.btn-filter');
+const divisionSections = document.querySelectorAll('.division-container');
 
-  // Colores precalculados: 6 tonos x 4 intensidades = 24 trazos por fotograma
-  // (antes se hacía un trazo por cada limadura: ~2000 llamadas de dibujo)
-  var HB = 6, AB = 4, colors = [];
-  for (var h = 0; h < HB; h++) for (var a = 0; a < AB; a++)
-    colors.push('hsla(' + (180 + h * 28) + ',100%,60%,' + (0.12 + a * 0.2).toFixed(2) + ')');
-
-  function resize(){
-    var dpr = lite ? 1 : Math.min(devicePixelRatio || 1, 2);
-    W = innerWidth; H = innerHeight;
-    cv.width = W * dpr; cv.height = H * dpr;
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    GAP = lite ? 54 : 36;
-    cols = Math.ceil(W / GAP) + 1; rows = Math.ceil(H / GAP) + 1;
-    if (!running) draw();
-  }
-  var rt; addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(resize, 150); });
-
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    // Polos: uno orbita solo; el otro sigue al dedo/mouse (o también orbita si no hay interacción)
-    var ax = W*(.5+.32*Math.cos(t*.0004)), ay = H*(.5+.3*Math.sin(t*.0006));
-    var bx = mouse.active ? mouse.x : W*(.5+.28*Math.cos(t*.0005+3));
-    var by = mouse.active ? mouse.y : H*(.5+.28*Math.sin(t*.0007+1));
-
-    var paths = new Array(HB*AB), n = rings.length;
-    for (var i = 0; i < cols; i++){
-      for (var j = 0; j < rows; j++){
-        var x = i*GAP + ((j & 1) ? GAP/2 : 0), y = j*GAP;
-        var dx = x-ax, dy = y-ay, d2 = dx*dx+dy*dy+900, s = -9000/(d2*Math.sqrt(d2));
-        var fx = dx*s, fy = dy*s;
-        dx = x-bx; dy = y-by; d2 = dx*dx+dy*dy+900; s = 9000/(d2*Math.sqrt(d2));
-        fx += dx*s; fy += dy*s;
-
-        var mag = Math.sqrt(fx*fx+fy*fy), ang = Math.atan2(fy,fx);
-        var str = mag*60; if (str > 1) str = 1;
-        var boost = 0;
-        for (var r = 0; r < n; r++){
-          var diff = Math.abs(Math.hypot(x-rings[r].x, y-rings[r].y) - rings[r].r);
-          if (diff < 60){ var bb = (1-diff/60)*rings[r].a; if (bb > boost) boost = bb; }
-        }
-        var ab = Math.min(AB-1, ((str + boost) * AB) | 0);
-        var hb = Math.min(HB-1, (((Math.cos(ang)*.5+.5)) * HB) | 0);
-        var k = hb*AB + ab, len = (5 + str*13) / 2;
-        var c = Math.cos(ang)*len, sn = Math.sin(ang)*len;
-        var p = paths[k] || (paths[k] = new Path2D());
-        p.moveTo(x-c, y-sn); p.lineTo(x+c, y+sn);
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    const filter = btn.getAttribute('data-filter');
+    divisionSections.forEach(section => {
+      if (filter === 'all' || section.getAttribute('data-category') === filter) {
+        section.classList.remove('hidden');
+      } else {
+        section.classList.add('hidden');
       }
-    }
-    ctx.lineCap = 'round'; ctx.lineWidth = lite ? 1.6 : 1.8;
-    for (var m = 0; m < paths.length; m++){
-      if (paths[m]){ ctx.strokeStyle = colors[m]; ctx.stroke(paths[m]); }
-    }
-    // Núcleos de los polos
-    var cores = [[ax,ay,'255,0,255'],[bx,by,'0,255,255']];
-    for (var q = 0; q < 2; q++){
-      var g = ctx.createRadialGradient(cores[q][0],cores[q][1],0,cores[q][0],cores[q][1],70);
-      g.addColorStop(0,'rgba('+cores[q][2]+',.35)'); g.addColorStop(1,'rgba('+cores[q][2]+',0)');
-      ctx.fillStyle = g; ctx.fillRect(cores[q][0]-70,cores[q][1]-70,140,140);
-    }
-    // Ondas de clic/toque
-    for (var w = rings.length-1; w >= 0; w--){
-      rings[w].r += 9; rings[w].a *= .96;
-      ctx.strokeStyle = 'rgba(0,255,255,'+(rings[w].a*.6).toFixed(2)+')'; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.arc(rings[w].x,rings[w].y,rings[w].r,0,6.283); ctx.stroke();
-      if (rings[w].a < .03) rings.splice(w,1);
-    }
-  }
-
-  function loop(now){
-    if (!running) return;
-    requestAnimationFrame(loop);
-    if (now - last < FRAME_MS) return;
-    last = now; t += FRAME_MS;
-    mouse.x += (mouse.tx-mouse.x)*.15; mouse.y += (mouse.ty-mouse.y)*.15;
-    draw();
-  }
-  function start(){ if (!running && !reduce){ running = true; requestAnimationFrame(loop); } }
-  function stop(){ running = false; }
-
-  // Pausa total cuando la pestaña no está visible (ahorra batería)
-  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
-
-  resize(); draw(); start();
-
-  var glow = document.getElementById('glow');
-  addEventListener('pointermove', function(e){
-    mouse.tx = e.clientX; mouse.ty = e.clientY;
-    if (!mouse.active){ mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; }
-    if (!lite) glow.style.transform = 'translate3d('+e.clientX+'px,'+e.clientY+'px,0)';
-  }, {passive:true});
-  document.addEventListener('pointerleave', function(){ mouse.active = false; });
-  addEventListener('pointerdown', function(e){ if (rings.length < 4) rings.push({x:e.clientX,y:e.clientY,r:0,a:1}); }, {passive:true});
-
-  // Inclinación 3D de la tarjeta (solo equipos con mouse)
-  if (!lite){
-    var card = document.getElementById('card');
-    card.addEventListener('pointermove', function(e){
-      var b = card.getBoundingClientRect(), x = e.clientX-b.left, y = e.clientY-b.top;
-      card.style.setProperty('--mx', x+'px'); card.style.setProperty('--my', y+'px');
-      card.style.setProperty('--ry', ((x/b.width-.5)*8)+'deg');
-      card.style.setProperty('--rx', (-(y/b.height-.5)*8)+'deg');
     });
-    card.addEventListener('pointerleave', function(){
-      card.style.setProperty('--rx','0deg'); card.style.setProperty('--ry','0deg');
-    });
-  }
-})();
+  });
+});
+
+/* MODAL INTERACTIVO */
+function openModal(title, text) {
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalBody').innerText = text;
+  document.getElementById('infoModal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('infoModal').classList.remove('active');
+}
+
+document.getElementById('infoModal').addEventListener('click', (e) => {
+  if (e.target.id === 'infoModal') closeModal();
+});
 </script>
 </body>
 </html>
