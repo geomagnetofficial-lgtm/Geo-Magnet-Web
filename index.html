@@ -52,7 +52,7 @@ body {
 .main-logo {
   width: 80px;
   height: 80px;
-  mix-blend-mode: screen; /* Oculta el fondo negro del PNG */
+  mix-blend-mode: screen; /* Oculta el fondo negro de la animación */
 }
 
 h1.magnet-title {
@@ -326,14 +326,6 @@ footer {
   width: 180px;
   margin-bottom: 1.5rem;
   mix-blend-mode: screen; 
-  animation: pulse-logo 3s infinite ease-in-out;
-}
-
-/* Animación del logo como indicador de actividad */
-@keyframes pulse-logo {
-  0% { transform: scale(0.97); opacity: 0.85; filter: drop-shadow(0 0 5px rgba(79, 70, 229, 0.3)); }
-  50% { transform: scale(1.03); opacity: 1; filter: drop-shadow(0 0 25px rgba(79, 70, 229, 0.8)); }
-  100% { transform: scale(0.97); opacity: 0.85; filter: drop-shadow(0 0 5px rgba(79, 70, 229, 0.3)); }
 }
 
 .nodeai-grid {
@@ -383,8 +375,8 @@ footer {
 <div id="main-view">
   <div class="container">
     <header class="header-brand">
-      <!-- Uso del logo general del estudio -->
-      <img src="logo.png" alt="Geo Magnet Logo" class="main-logo">
+      <!-- Uso de la animación general del estudio -->
+      <img src="logo.gif" alt="Geo Magnet Logo" class="main-logo">
       <h1 class="magnet-title">Geo Magnet Studios</h1>
     </header>
 
@@ -452,8 +444,8 @@ footer {
           <article class="project-card">
             <div>
               <div class="card-header-flex">
-                <!-- Uso del logo A como icono de la aplicación -->
-                <img src="logo_A.png" alt="NodeAI Icon" class="card-title-logo">
+                <!-- Uso de la animación A como icono de la aplicación -->
+                <img src="logo_A.gif" alt="NodeAI Icon" class="card-title-logo">
                 <h3 class="card-title" style="margin-bottom:0;">NodeAI</h3>
               </div>
               <div class="badges-container">
@@ -519,8 +511,8 @@ footer {
     <button class="btn-filter" onclick="hideNodeAIView()" style="margin-bottom: 2rem;">&larr; Volver al Inicio</button>
     
     <div class="nodeai-hero">
-      <!-- Uso del logo A animado imitando la Interfaz -->
-      <img src="logo_A.png" alt="NodeAI Logo" class="nodeai-logo-img">
+      <!-- Uso de la animación A nativa imitando la Interfaz -->
+      <img src="logo_A.gif" alt="NodeAI Logo" class="nodeai-logo-img">
       <h1 class="magnet-title">NodeAi</h1>
       <p class="description" style="max-width: 600px; margin: 1rem auto 0; font-size: 1.1rem;">
         Una mesa redonda de IAs en una interfaz simple, actual y personalizable.
