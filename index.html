@@ -15,6 +15,7 @@
   --accent: #ffffff;
   --status-green: #20c997;
   --status-purple: #a855f7;
+  --accent-nodeai: #4F46E5;
 }
 
 * {
@@ -39,9 +40,19 @@ body {
 }
 
 /* Header */
-header {
+.header-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
   margin-bottom: 3.5rem;
   text-align: center;
+}
+
+.main-logo {
+  width: 80px;
+  height: 80px;
+  mix-blend-mode: screen; /* Oculta el fondo negro del PNG */
 }
 
 h1.magnet-title {
@@ -138,11 +149,23 @@ h1.magnet-title {
   transform: translateY(-2px);
 }
 
+.card-header-flex {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0.75rem;
+}
+
+.card-title-logo {
+  width: 32px;
+  height: 32px;
+  mix-blend-mode: screen;
+}
+
 .card-title {
   font-size: 1.35rem;
   font-weight: 600;
   color: var(--accent);
-  margin-bottom: 0.75rem;
   letter-spacing: -0.02em;
 }
 
@@ -288,130 +311,251 @@ footer {
   color: var(--accent);
   font-weight: 500;
 }
+
+/* ESTILOS PARA LA NUEVA VISTA DE NODEAI */
+.view-hidden {
+  display: none !important;
+}
+
+.nodeai-hero {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.nodeai-logo-img {
+  width: 180px;
+  margin-bottom: 1.5rem;
+  mix-blend-mode: screen; 
+  animation: pulse-logo 3s infinite ease-in-out;
+}
+
+/* Animación del logo como indicador de actividad */
+@keyframes pulse-logo {
+  0% { transform: scale(0.97); opacity: 0.85; filter: drop-shadow(0 0 5px rgba(79, 70, 229, 0.3)); }
+  50% { transform: scale(1.03); opacity: 1; filter: drop-shadow(0 0 25px rgba(79, 70, 229, 0.8)); }
+  100% { transform: scale(0.97); opacity: 0.85; filter: drop-shadow(0 0 5px rgba(79, 70, 229, 0.3)); }
+}
+
+.nodeai-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .nodeai-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.nodeai-feature {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem;
+}
+
+.nodeai-feature h3 {
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nodeai-feature p, .nodeai-feature li {
+  color: #a1a1aa;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.nodeai-feature ul {
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+}
 </style>
 </head>
 <body>
 
-<div class="container">
-  <header>
-    <h1 class="magnet-title">Geo Magnet Studios</h1>
-  </header>
+<!-- CONTENEDOR DE LA VISTA PRINCIPAL -->
+<div id="main-view">
+  <div class="container">
+    <header class="header-brand">
+      <!-- Uso del logo general del estudio -->
+      <img src="logo.png" alt="Geo Magnet Logo" class="main-logo">
+      <h1 class="magnet-title">Geo Magnet Studios</h1>
+    </header>
 
-  <!-- FILTROS -->
-  <nav class="nav-filters">
-    <button class="btn-filter active" data-filter="all">Todos</button>
-    <button class="btn-filter" data-filter="ai">AI Studios</button>
-    <button class="btn-filter" data-filter="studios">Studios</button>
-    <button class="btn-filter" data-filter="games">Games</button>
-  </nav>
+    <!-- FILTROS -->
+    <nav class="nav-filters">
+      <button class="btn-filter active" data-filter="all">Todos</button>
+      <button class="btn-filter" data-filter="ai">AI Studios</button>
+      <button class="btn-filter" data-filter="studios">Studios</button>
+      <button class="btn-filter" data-filter="games">Games</button>
+    </nav>
 
-  <main class="projects-section">
-    
-    <!-- GEO MAGNET AI STUDIOS -->
-    <section class="division-container" data-category="ai">
-      <h2 class="section-title">Geo Magnet AI Studios</h2>
-      <div class="cards-grid two-cols">
-        
-        <article class="project-card">
-          <div>
-            <h3 class="card-title">Tecton AI</h3>
-            <div class="badges-container">
-              <span class="badge">LLM</span>
-              <span class="badge">C++ / LibTorch</span>
-              <span class="badge">FSDP2 / HSDP</span>
-              <span class="badge">Multimodal</span>
+    <main class="projects-section">
+      
+      <!-- GEO MAGNET AI STUDIOS -->
+      <section class="division-container" data-category="ai">
+        <h2 class="section-title">Geo Magnet AI Studios</h2>
+        <div class="cards-grid two-cols">
+          
+          <article class="project-card">
+            <div>
+              <div class="card-header-flex">
+                <h3 class="card-title">Tecton AI</h3>
+              </div>
+              <div class="badges-container">
+                <span class="badge">LLM</span>
+                <span class="badge">C++ / LibTorch</span>
+                <span class="badge">FSDP2 / HSDP</span>
+                <span class="badge">Multimodal</span>
+              </div>
+              <p class="description">Modelo de lenguaje propio diseñado como alternativa a Gemini o Claude. Basado en arquitectura Transformer decoder-only con atención agrupada (GQA), RoPE, RMSNorm y soporte multimodal opcional para imágenes.</p>
             </div>
-            <p class="description">Modelo de lenguaje propio diseñado como alternativa a Gemini o Claude. Basado en arquitectura Transformer decoder-only con atención agrupada (GQA), RoPE, RMSNorm y soporte multimodal opcional para imágenes.</p>
-          </div>
-          <div class="card-footer">
-            <div class="status"><span class="dot"></span> v2.0 En desarrollo</div>
-            <button class="btn-card-action" onclick="openModal('Tecton AI', 'Tecton AI es un LLM propio. La v1.0 (agosto 2026) vinculó el entrenamiento en Python con un motor de inferencia en C++ (LibTorch). La v2.0 reescribe la arquitectura para entrenamiento distribuido a gran escala con multi-GPU/multi-nodo (FSDP2/HSDP), checkpoints asíncronos, LoRA/QLoRA, tokenizador SentencePiece y auditoría técnica.')">Info</button>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div>
-            <h3 class="card-title">Compresor (pt2gguf)</h3>
-            <div class="badges-container">
-              <span class="badge">CLI / GUI</span>
-              <span class="badge">GGUF</span>
-              <span class="badge">Ollama</span>
-              <span class="badge">PyTorch .pt</span>
+            <div class="card-footer">
+              <div class="status"><span class="dot"></span> v2.0 En desarrollo</div>
+              <button class="btn-card-action" onclick="openModal('Tecton AI', 'Tecton AI es un LLM propio. La v1.0 (agosto 2026) vinculó el entrenamiento en Python con un motor de inferencia en C++ (LibTorch). La v2.0 reescribe la arquitectura para entrenamiento distribuido a gran escala con multi-GPU/multi-nodo (FSDP2/HSDP), checkpoints asíncronos, LoRA/QLoRA, tokenizador SentencePiece y auditoría técnica.')">Info</button>
             </div>
-            <p class="description">Herramienta gráfica y de línea de comandos que convierte checkpoints .pt tipo LLaMA a formato GGUF cuantizado (Q4_K_M) y los registra directamente en Ollama.</p>
-          </div>
-          <div class="card-footer">
-            <div class="status"><span class="dot"></span> Disponible</div>
-            <button class="btn-card-action" onclick="openModal('Compresor (pt2gguf)', 'Herramienta de conversión para checkpoints PyTorch (.pt) hacia el formato GGUF optimizado. Permite ejecutar localmente en Ollama los modelos de lenguaje previamente entrenados con Tecton AI.')">Info</button>
-          </div>
-        </article>
+          </article>
 
+          <article class="project-card">
+            <div>
+              <div class="card-header-flex">
+                <h3 class="card-title">Compresor (pt2gguf)</h3>
+              </div>
+              <div class="badges-container">
+                <span class="badge">CLI / GUI</span>
+                <span class="badge">GGUF</span>
+                <span class="badge">Ollama</span>
+                <span class="badge">PyTorch .pt</span>
+              </div>
+              <p class="description">Herramienta gráfica y de línea de comandos que convierte checkpoints .pt tipo LLaMA a formato GGUF cuantizado (Q4_K_M) y los registra directamente en Ollama.</p>
+            </div>
+            <div class="card-footer">
+              <div class="status"><span class="dot"></span> Disponible</div>
+              <button class="btn-card-action" onclick="openModal('Compresor (pt2gguf)', 'Herramienta de conversión para checkpoints PyTorch (.pt) hacia el formato GGUF optimizado. Permite ejecutar localmente en Ollama los modelos de lenguaje previamente entrenados con Tecton AI.')">Info</button>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- GEO MAGNET STUDIOS -->
+      <section class="division-container" data-category="studios">
+        <h2 class="section-title">Geo Magnet Studios</h2>
+        <div class="cards-grid">
+          
+          <article class="project-card">
+            <div>
+              <div class="card-header-flex">
+                <!-- Uso del logo A como icono de la aplicación -->
+                <img src="logo_A.png" alt="NodeAI Icon" class="card-title-logo">
+                <h3 class="card-title" style="margin-bottom:0;">NodeAI</h3>
+              </div>
+              <div class="badges-container">
+                <span class="badge">Flet</span>
+                <span class="badge">Multi-LLM (20+)</span>
+                <span class="badge">Modo Agente</span>
+                <span class="badge">Windows .exe</span>
+              </div>
+              <p class="description">Mesa redonda interactiva que conecta hasta 20 modelos en paralelo (OpenAI, Anthropic, Gemini, DeepSeek, Ollama, etc.). Se replican entre sí y un modelo Director sintetiza la respuesta final.</p>
+            </div>
+            <div class="card-footer">
+              <div class="status"><span class="dot"></span> Versión Windows</div>
+              <button class="btn-card-action" onclick="showNodeAIView()" style="border-color: var(--accent-nodeai); color: var(--accent-nodeai);">Ver Proyecto</button>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- GEO MAGNET GAMES -->
+      <section class="division-container" data-category="games">
+        <h2 class="section-title">Geo Magnet Games</h2>
+        <div class="cards-grid">
+          
+          <article class="project-card">
+            <div>
+              <div class="card-header-flex">
+                <h3 class="card-title">Root Vortex</h3>
+              </div>
+              <div class="badges-container">
+                <span class="badge">FPS Competitivo</span>
+                <span class="badge">Roblox Studio</span>
+                <span class="badge">Acción Táctica</span>
+                <span class="badge">0% IA en Desarrollo</span>
+              </div>
+              <p class="description">Shooter táctico y competitivo para Roblox al estilo Rivals. Primer gran proyecto del estudio, enfocado en una experiencia ágil con 0% de IA en su desarrollo.</p>
+            </div>
+            <div class="card-footer">
+              <div class="status concept"><span class="dot"></span> En desarrollo</div>
+              <button class="btn-card-action" onclick="openModal('Root Vortex', 'Shooter táctico y trepidante desarrollado en Roblox Studio al estilo Rivals. Diseñado para partidas competitivas de alta intensidad manteniendo un desarrollo de código e historia 100% humano. Busca scripters, artistas 2D/3D y diseñadores de sonido bajo un modelo de ganancias compartidas.')">Info</button>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="contact-box">
+        <span>Discord:</span>
+        <span class="contact-id">@geomagnetofficial</span>
+        <span>o</span>
+        <span class="contact-id">@random_official_geo</span>
       </div>
-    </section>
-
-    <!-- GEO MAGNET STUDIOS -->
-    <section class="division-container" data-category="studios">
-      <h2 class="section-title">Geo Magnet Studios</h2>
-      <div class="cards-grid">
-        
-        <article class="project-card">
-          <div>
-            <h3 class="card-title">NodeAI</h3>
-            <div class="badges-container">
-              <span class="badge">Flet</span>
-              <span class="badge">Multi-LLM (20+)</span>
-              <span class="badge">Modo Agente</span>
-              <span class="badge">Windows .exe</span>
-            </div>
-            <p class="description">Mesa redonda interactiva que conecta hasta 20 modelos en paralelo (OpenAI, Anthropic, Gemini, DeepSeek, Ollama, etc.). Se replican entre sí y un modelo Director sintetiza la respuesta final.</p>
-          </div>
-          <div class="card-footer">
-            <div class="status"><span class="dot"></span> Versión Windows</div>
-            <button class="btn-card-action" onclick="openModal('NodeAI', 'Aplicación desarrollada en Flet con ejecutable para Windows. Permite interacciones multinivel entre hasta 20 modelos locales o en la nube. Incluye un Modo Agente que permite al modelo Director ver la pantalla, controlar teclado/ratón, interactuar con la terminal y manejar archivos bajo estrictos niveles de seguridad.')">Info</button>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- GEO MAGNET GAMES -->
-    <section class="division-container" data-category="games">
-      <h2 class="section-title">Geo Magnet Games</h2>
-      <div class="cards-grid">
-        
-        <article class="project-card">
-          <div>
-            <h3 class="card-title">Root Vortex</h3>
-            <div class="badges-container">
-              <span class="badge">FPS Competitivo</span>
-              <span class="badge">Roblox Studio</span>
-              <span class="badge">Acción Táctica</span>
-              <span class="badge">0% IA en Desarrollo</span>
-            </div>
-            <p class="description">Shooter táctico y competitivo para Roblox al estilo Rivals. Primer gran proyecto del estudio, enfocado en una experiencia ágil con 0% de IA en su desarrollo.</p>
-          </div>
-          <div class="card-footer">
-            <div class="status concept"><span class="dot"></span> En desarrollo</div>
-            <button class="btn-card-action" onclick="openModal('Root Vortex', 'Shooter táctico y trepidante desarrollado en Roblox Studio al estilo Rivals. Diseñado para partidas competitivas de alta intensidad manteniendo un desarrollo de código e historia 100% humano. Busca scripters, artistas 2D/3D y diseñadores de sonido bajo un modelo de ganancias compartidas.')">Info</button>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    <div class="contact-box">
-      <span>Discord:</span>
-      <span class="contact-id">@geomagnetofficial</span>
-      <span>o</span>
-      <span class="contact-id">@random_official_geo</span>
-    </div>
-  </footer>
+    </footer>
+  </div>
 </div>
 
-<!-- MODAL -->
+<!-- APARTADO DEDICADO A NODE AI -->
+<div id="nodeai-view" class="view-hidden">
+  <div class="container">
+    <button class="btn-filter" onclick="hideNodeAIView()" style="margin-bottom: 2rem;">&larr; Volver al Inicio</button>
+    
+    <div class="nodeai-hero">
+      <!-- Uso del logo A animado imitando la Interfaz -->
+      <img src="logo_A.png" alt="NodeAI Logo" class="nodeai-logo-img">
+      <h1 class="magnet-title">NodeAi</h1>
+      <p class="description" style="max-width: 600px; margin: 1rem auto 0; font-size: 1.1rem;">
+        Una mesa redonda de IAs en una interfaz simple, actual y personalizable.
+      </p>
+    </div>
+
+    <div class="nodeai-grid">
+      <div class="nodeai-feature">
+        <h3>Concepto y Estructura</h3>
+        <p>NodeAi es una aplicación de escritorio desarrollada en Flet (código abierto). En lugar de un chat tradicional, plantea una <strong>mesa redonda de hasta 20 IAs</strong> que conversan en paralelo, lideradas por un modelo "Director" encargado de sintetizar la respuesta final.</p>
+      </div>
+
+      <div class="nodeai-feature">
+        <h3>El Logo como Indicador</h3>
+        <p>El logotipo no es estático; funciona como un indicador visual de actividad. Está formado por un círculo central rodeado de 20 círculos periféricos. <strong>Cada asiento se enciende cuando una IA de la mesa está respondiendo</strong> y parpadea suavemente cuando un modelo está pensando.</p>
+      </div>
+
+      <div class="nodeai-feature">
+        <h3>Modo Agente y Control</h3>
+        <p>Debajo del botón de encendido se puede activar el Modo Agente. Este modo permite asignar tareas de pasos limitados o ilimitados, otorgándole al modelo Director la capacidad de <strong>ver la pantalla y controlar el teclado y ratón del PC</strong>, siempre bajo niveles de aprobación configurables.</p>
+      </div>
+
+      <div class="nodeai-feature">
+        <h3>Interfaz y Seguridad</h3>
+        <ul>
+          <li><strong>Diseño Actual:</strong> Estética inspirada en Gemini o Claude, con mucho aire visual y personalización de temas (Claro/Oscuro/Alto contraste).</li>
+          <li><strong>Privacidad Primero:</strong> Las API keys no se guardan automáticamente; existe una opción para guardarlas acompañada de un aviso de que residirán en texto plano.</li>
+          <li><strong>Biblioteca Integrada:</strong> Los modelos, roles y prompts se manejan desde archivos JSON versionados, accesibles y configurables desde la misma app.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ORIGINAL -->
 <div class="modal-overlay" id="infoModal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal()">&times;</button>
@@ -455,6 +599,22 @@ function closeModal() {
 document.getElementById('infoModal').addEventListener('click', (e) => {
   if (e.target.id === 'infoModal') closeModal();
 });
+
+/* LÓGICA DE NAVEGACIÓN PARA LA VISTA DE NODE AI */
+function showNodeAIView() {
+  // Ocultar vista principal y mostrar NodeAI
+  document.getElementById('main-view').classList.add('view-hidden');
+  document.getElementById('nodeai-view').classList.remove('view-hidden');
+  // Subir al inicio de la página
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function hideNodeAIView() {
+  // Ocultar NodeAI y mostrar vista principal
+  document.getElementById('nodeai-view').classList.add('view-hidden');
+  document.getElementById('main-view').classList.remove('view-hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 </script>
 </body>
 </html>
