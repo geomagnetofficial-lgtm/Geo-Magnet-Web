@@ -52,7 +52,8 @@ body {
 .main-logo {
   width: 80px;
   height: 80px;
-  mix-blend-mode: screen; /* Oculta el fondo negro de la animación */
+  mix-blend-mode: screen; /* Oculta el fondo negro del video */
+  object-fit: cover;
 }
 
 h1.magnet-title {
@@ -160,6 +161,7 @@ h1.magnet-title {
   width: 32px;
   height: 32px;
   mix-blend-mode: screen;
+  object-fit: cover;
 }
 
 .card-title {
@@ -326,6 +328,7 @@ footer {
   width: 180px;
   margin-bottom: 1.5rem;
   mix-blend-mode: screen; 
+  object-fit: cover;
 }
 
 .nodeai-grid {
@@ -375,8 +378,8 @@ footer {
 <div id="main-view">
   <div class="container">
     <header class="header-brand">
-      <!-- Uso de la animación general del estudio -->
-      <img src="logo.gif" alt="Geo Magnet Logo" class="main-logo">
+      <!-- Uso del archivo .mp4 como logo principal usando etiqueta video -->
+      <video src="thought_animation.mp4" autoplay loop muted playsinline class="main-logo"></video>
       <h1 class="magnet-title">Geo Magnet Studios</h1>
     </header>
 
@@ -444,8 +447,8 @@ footer {
           <article class="project-card">
             <div>
               <div class="card-header-flex">
-                <!-- Uso de la animación A como icono de la aplicación -->
-                <img src="logo_A.gif" alt="NodeAI Icon" class="card-title-logo">
+                <!-- Uso de thought_animation2.mp4 como icono de la aplicación -->
+                <video src="thought_animation2.mp4" autoplay loop muted playsinline class="card-title-logo"></video>
                 <h3 class="card-title" style="margin-bottom:0;">NodeAI</h3>
               </div>
               <div class="badges-container">
@@ -511,8 +514,8 @@ footer {
     <button class="btn-filter" onclick="hideNodeAIView()" style="margin-bottom: 2rem;">&larr; Volver al Inicio</button>
     
     <div class="nodeai-hero">
-      <!-- Uso de la animación A nativa imitando la Interfaz -->
-      <img src="logo_A.gif" alt="NodeAI Logo" class="nodeai-logo-img">
+      <!-- Uso de thought_animation2.mp4 como logo animado en la vista de NodeAI -->
+      <video src="thought_animation2.mp4" autoplay loop muted playsinline class="nodeai-logo-img"></video>
       <h1 class="magnet-title">NodeAi</h1>
       <p class="description" style="max-width: 600px; margin: 1rem auto 0; font-size: 1.1rem;">
         Una mesa redonda de IAs en una interfaz simple, actual y personalizable.
