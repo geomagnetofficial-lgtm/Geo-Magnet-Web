@@ -52,7 +52,7 @@ body {
 .main-logo {
   width: 80px;
   height: 80px;
-  mix-blend-mode: screen; /* Oculta el fondo negro del video */
+  mix-blend-mode: screen;
   object-fit: cover;
 }
 
@@ -378,7 +378,6 @@ footer {
 <div id="main-view">
   <div class="container">
     <header class="header-brand">
-      <!-- Uso del archivo .mp4 como logo principal usando etiqueta video -->
       <video src="thought_animation.mp4" autoplay loop muted playsinline class="main-logo"></video>
       <h1 class="magnet-title">Geo Magnet Studios</h1>
     </header>
@@ -386,58 +385,11 @@ footer {
     <!-- FILTROS -->
     <nav class="nav-filters">
       <button class="btn-filter active" data-filter="all">Todos</button>
-      <button class="btn-filter" data-filter="ai">AI Studios</button>
       <button class="btn-filter" data-filter="studios">Studios</button>
       <button class="btn-filter" data-filter="games">Games</button>
     </nav>
 
     <main class="projects-section">
-      
-      <!-- GEO MAGNET AI STUDIOS -->
-      <section class="division-container" data-category="ai">
-        <h2 class="section-title">Geo Magnet AI Studios</h2>
-        <div class="cards-grid two-cols">
-          
-          <article class="project-card">
-            <div>
-              <div class="card-header-flex">
-                <h3 class="card-title">Tecton AI</h3>
-              </div>
-              <div class="badges-container">
-                <span class="badge">LLM</span>
-                <span class="badge">C++ / LibTorch</span>
-                <span class="badge">FSDP2 / HSDP</span>
-                <span class="badge">Multimodal</span>
-              </div>
-              <p class="description">Modelo de lenguaje propio diseñado como alternativa a Gemini o Claude. Basado en arquitectura Transformer decoder-only con atención agrupada (GQA), RoPE, RMSNorm y soporte multimodal opcional para imágenes.</p>
-            </div>
-            <div class="card-footer">
-              <div class="status"><span class="dot"></span> v2.0 En desarrollo</div>
-              <button class="btn-card-action" onclick="openModal('Tecton AI', 'Tecton AI es un LLM propio. La v1.0 (agosto 2026) vinculó el entrenamiento en Python con un motor de inferencia en C++ (LibTorch). La v2.0 reescribe la arquitectura para entrenamiento distribuido a gran escala con multi-GPU/multi-nodo (FSDP2/HSDP), checkpoints asíncronos, LoRA/QLoRA, tokenizador SentencePiece y auditoría técnica.')">Info</button>
-            </div>
-          </article>
-
-          <article class="project-card">
-            <div>
-              <div class="card-header-flex">
-                <h3 class="card-title">Compresor (pt2gguf)</h3>
-              </div>
-              <div class="badges-container">
-                <span class="badge">CLI / GUI</span>
-                <span class="badge">GGUF</span>
-                <span class="badge">Ollama</span>
-                <span class="badge">PyTorch .pt</span>
-              </div>
-              <p class="description">Herramienta gráfica y de línea de comandos que convierte checkpoints .pt tipo LLaMA a formato GGUF cuantizado (Q4_K_M) y los registra directamente en Ollama.</p>
-            </div>
-            <div class="card-footer">
-              <div class="status"><span class="dot"></span> Disponible</div>
-              <button class="btn-card-action" onclick="openModal('Compresor (pt2gguf)', 'Herramienta de conversión para checkpoints PyTorch (.pt) hacia el formato GGUF optimizado. Permite ejecutar localmente en Ollama los modelos de lenguaje previamente entrenados con Tecton AI.')">Info</button>
-            </div>
-          </article>
-
-        </div>
-      </section>
 
       <!-- GEO MAGNET STUDIOS -->
       <section class="division-container" data-category="studios">
@@ -447,7 +399,6 @@ footer {
           <article class="project-card">
             <div>
               <div class="card-header-flex">
-                <!-- Uso de thought_animation2.mp4 como icono de la aplicación -->
                 <video src="thought_animation2.mp4" autoplay loop muted playsinline class="card-title-logo"></video>
                 <h3 class="card-title" style="margin-bottom:0;">NodeAI</h3>
               </div>
@@ -514,7 +465,6 @@ footer {
     <button class="btn-filter" onclick="hideNodeAIView()" style="margin-bottom: 2rem;">&larr; Volver al Inicio</button>
     
     <div class="nodeai-hero">
-      <!-- Uso de thought_animation2.mp4 como logo animado en la vista de NodeAI -->
       <video src="thought_animation2.mp4" autoplay loop muted playsinline class="nodeai-logo-img"></video>
       <h1 class="magnet-title">NodeAi</h1>
       <p class="description" style="max-width: 600px; margin: 1rem auto 0; font-size: 1.1rem;">
@@ -597,15 +547,12 @@ document.getElementById('infoModal').addEventListener('click', (e) => {
 
 /* LÓGICA DE NAVEGACIÓN PARA LA VISTA DE NODE AI */
 function showNodeAIView() {
-  // Ocultar vista principal y mostrar NodeAI
   document.getElementById('main-view').classList.add('view-hidden');
   document.getElementById('nodeai-view').classList.remove('view-hidden');
-  // Subir al inicio de la página
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function hideNodeAIView() {
-  // Ocultar NodeAI y mostrar vista principal
   document.getElementById('nodeai-view').classList.add('view-hidden');
   document.getElementById('main-view').classList.remove('view-hidden');
   window.scrollTo({ top: 0, behavior: 'smooth' });
